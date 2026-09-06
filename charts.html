@@ -3,18 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Báo cáo thương mại điện tử</title>
+  <title>Báo cáo thương mại điện tử — Nền tảng của bạn</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: { ink: '#090A14', primary: '#DF6B33', 'primary-light': '#F58A50' },
-          fontFamily: { heading: ['Poppins', 'sans-serif'], body: ['Inter', 'sans-serif'] },
-          boxShadow: { glow: '0 0 0 1px rgba(223,107,51,.12), 0 24px 80px rgba(0,0,0,.35)' }
-        }
-      }
-    };
+    tailwind.config = { theme: { extend: {
+      colors: { ink: '#090A14', primary: '#DF6B33', 'primary-light': '#F58A50' },
+      fontFamily: { heading: ['Poppins', 'sans-serif'], body: ['Inter', 'sans-serif'] },
+      boxShadow: { glow: '0 0 0 1px rgba(223,107,51,.12), 0 24px 80px rgba(0,0,0,.35)' }
+    } } };
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -22,25 +18,22 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <style>
-    :root { color-scheme: dark; }
-    html { background: #090A14; }
-    body { background: #090A14; }
+    html { color-scheme: dark; } body { background: #090A14; }
     .chart-card { background: rgba(255,255,255,.035); border: 1px solid rgba(255,255,255,.08); }
     .table-wrap { overflow-x: auto; }
     .report-table { min-width: 620px; }
-    .report-table th { color: #94a3b8; font-size: .7rem; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
-    .report-table td { border-top: 1px solid rgba(255,255,255,.07); color: #e2e8f0; font-size: .8rem; padding: .75rem .5rem; white-space: nowrap; }
+    .report-table th { color: #94a3b8; font-size: .7rem; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; padding: .5rem; }
+    .report-table td { border-top: 1px solid rgba(255,255,255,.07); color: #e2e8f0; font-size: .8rem; padding: .75rem .5rem; white-space: nowrap; font-variant-numeric: tabular-nums; }
     .report-table tbody tr:hover { background: rgba(255,255,255,.035); }
     .filter-control { background: rgba(0,0,0,.2); border: 1px solid rgba(255,255,255,.12); }
     .filter-control:focus { border-color: #DF6B33; outline: none; box-shadow: 0 0 0 3px rgba(223,107,51,.14); }
-    .kpi-value { font-variant-numeric: tabular-nums; }
     .report-tab[aria-selected="true"] { background: #DF6B33; color: #fff; box-shadow: 0 8px 24px rgba(223,107,51,.2); }
-    .report-panel[hidden] { display: none; }
-    @media (max-width: 640px) { .chart-card { border-radius: 1rem; } }
+    .kpi-value { font-variant-numeric: tabular-nums; }
+    [role="tabpanel"][hidden] { display: none; }
   </style>
 </head>
 <body class="min-h-screen font-body text-slate-100 antialiased">
-  <main class="relative mx-auto max-w-7xl overflow-hidden px-4 py-8 sm:px-6 lg:px-8">
+  <main class="relative mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
     <div aria-hidden="true" class="pointer-events-none absolute -left-40 -top-40 h-96 w-96 rounded-full bg-primary/10 blur-3xl"></div>
     <div aria-hidden="true" class="pointer-events-none absolute -right-40 top-1/3 h-96 w-96 rounded-full bg-primary/10 blur-3xl"></div>
 
@@ -48,31 +41,18 @@
       <div>
         <p class="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-[.16em] text-primary-light"><i data-lucide="bar-chart-3" class="h-4 w-4"></i> Trung tâm báo cáo</p>
         <h1 class="font-heading text-2xl font-extrabold tracking-tight text-white sm:text-3xl">Báo cáo thương mại điện tử</h1>
-        <p class="mt-2 max-w-2xl text-sm leading-6 text-slate-400">Theo dõi doanh thu bán hàng, kết quả kinh doanh và hiệu quả marketing trong một giao diện.</p>
+        <p class="mt-2 max-w-2xl text-sm leading-6 text-slate-400">Theo dõi doanh thu bán hàng, kết quả kinh doanh, số liệu marketing, xếp hạng nhân viên và doanh thu theo khu vực trong một giao diện.</p>
       </div>
-      <div class="flex flex-wrap items-end gap-3">
-        <label class="text-xs text-slate-400">Khoảng thời gian
-          <select id="period" class="filter-control mt-1 block rounded-lg px-3 py-2 text-sm text-slate-200">
-            <option value="6">6 tháng gần nhất</option><option value="12">12 tháng gần nhất</option>
-          </select>
-        </label>
-        <label class="text-xs text-slate-400">Kênh bán hàng
-          <select id="channel" class="filter-control mt-1 block rounded-lg px-3 py-2 text-sm text-slate-200">
-            <option value="all">Tất cả kênh</option><option value="website">Website</option><option value="marketplace">Sàn TMĐT</option><option value="social">Mạng xã hội</option>
-          </select>
-        </label>
-      </div>
+      <nav class="flex flex-wrap gap-2 rounded-2xl border border-white/[0.08] bg-white/[0.025] p-2" role="tablist" aria-label="Chuyển đổi báo cáo bổ sung">
+        <button type="button" id="ranking-tab" class="report-tab rounded-xl px-4 py-2.5 text-sm font-semibold text-slate-300 transition hover:bg-white/[0.06] focus:outline-none focus:ring-2 focus:ring-primary/50" role="tab" aria-selected="true" aria-controls="ranking-panel" data-tab="ranking-panel"><i data-lucide="trophy" class="mr-2 inline h-4 w-4"></i>Xếp hạng nhân viên</button>
+        <button type="button" id="region-tab" class="report-tab rounded-xl px-4 py-2.5 text-sm font-semibold text-slate-300 transition hover:bg-white/[0.06] focus:outline-none focus:ring-2 focus:ring-primary/50" role="tab" aria-selected="false" aria-controls="region-panel" data-tab="region-panel"><i data-lucide="map" class="mr-2 inline h-4 w-4"></i>Doanh thu theo khu vực</button>
+      </nav>
     </header>
-
-    <div class="relative mb-8 flex flex-wrap gap-2 rounded-2xl border border-white/[0.08] bg-white/[0.025] p-2" role="tablist" aria-label="Các báo cáo bổ sung">
-      <button type="button" class="report-tab rounded-xl px-4 py-2.5 text-sm font-semibold text-slate-300 transition hover:bg-white/[0.06]" role="tab" aria-selected="true" aria-controls="ranking-panel" data-tab="ranking-panel"><i data-lucide="trophy" class="mr-2 inline h-4 w-4"></i>Xếp hạng nhân viên</button>
-      <button type="button" class="report-tab rounded-xl px-4 py-2.5 text-sm font-semibold text-slate-300 transition hover:bg-white/[0.06]" role="tab" aria-selected="false" aria-controls="region-panel" data-tab="region-panel"><i data-lucide="map" class="mr-2 inline h-4 w-4"></i>Doanh thu theo khu vực</button>
-    </div>
 
     <section aria-labelledby="overview-title" class="relative mb-8">
       <h2 id="overview-title" class="sr-only">Tổng quan chỉ số</h2>
       <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <article class="chart-card rounded-2xl p-5"><div class="flex items-center justify-between"><p class="text-sm text-slate-400">Doanh thu thuần</p><span class="rounded-lg bg-primary/10 p-2 text-primary-light"><i data-lucide="wallet" class="h-4 w-4"></i></span></div><p id="kpi-revenue" class="kpi-value mt-4 font-heading text-2xl font-bold text-white">₫1,24 tỷ</p><p class="mt-2 text-xs text-emerald-400">↑ 14,8% <span class="text-slate-500">so với kỳ trước</span></p></article>
+        <article class="chart-card rounded-2xl p-5"><div class="flex items-center justify-between"><p class="text-sm text-slate-400">Doanh thu thuần</p><span class="rounded-lg bg-primary/10 p-2 text-primary-light"><i data-lucide="wallet" class="h-4 w-4"></i></span></div><p class="kpi-value mt-4 font-heading text-2xl font-bold text-white">₫1,24 tỷ</p><p class="mt-2 text-xs text-emerald-400">↑ 14,8% <span class="text-slate-500">so với kỳ trước</span></p></article>
         <article class="chart-card rounded-2xl p-5"><div class="flex items-center justify-between"><p class="text-sm text-slate-400">Đơn hàng</p><span class="rounded-lg bg-blue-400/10 p-2 text-blue-300"><i data-lucide="shopping-bag" class="h-4 w-4"></i></span></div><p class="kpi-value mt-4 font-heading text-2xl font-bold text-white">18.642</p><p class="mt-2 text-xs text-emerald-400">↑ 9,6% <span class="text-slate-500">so với kỳ trước</span></p></article>
         <article class="chart-card rounded-2xl p-5"><div class="flex items-center justify-between"><p class="text-sm text-slate-400">Lợi nhuận ròng</p><span class="rounded-lg bg-emerald-400/10 p-2 text-emerald-300"><i data-lucide="trending-up" class="h-4 w-4"></i></span></div><p class="kpi-value mt-4 font-heading text-2xl font-bold text-white">₫286 triệu</p><p class="mt-2 text-xs text-emerald-400">↑ 18,2% <span class="text-slate-500">so với kỳ trước</span></p></article>
         <article class="chart-card rounded-2xl p-5"><div class="flex items-center justify-between"><p class="text-sm text-slate-400">Tỷ lệ chuyển đổi</p><span class="rounded-lg bg-violet-400/10 p-2 text-violet-300"><i data-lucide="mouse-pointer-click" class="h-4 w-4"></i></span></div><p class="kpi-value mt-4 font-heading text-2xl font-bold text-white">3,84%</p><p class="mt-2 text-xs text-emerald-400">↑ 0,42 điểm % <span class="text-slate-500">so với kỳ trước</span></p></article>
@@ -82,8 +62,8 @@
     <section aria-labelledby="sales-title" class="relative mb-8">
       <div class="mb-4 flex items-center gap-3"><span class="rounded-xl bg-primary/10 p-2 text-primary-light"><i data-lucide="shopping-cart" class="h-5 w-5"></i></span><div><h2 id="sales-title" class="font-heading text-xl font-bold text-white">Doanh thu bán hàng</h2><p class="text-xs text-slate-500">Xu hướng doanh thu và cơ cấu theo kênh</p></div></div>
       <div class="grid gap-5 lg:grid-cols-[1.45fr_1fr]">
-        <article class="chart-card rounded-2xl p-4 sm:p-6"><div class="mb-4 flex items-center justify-between"><h3 class="font-heading text-sm font-semibold text-slate-200">Doanh thu theo tháng</h3><span class="text-xs text-slate-500">Đơn vị: triệu đồng</span></div><div class="h-64 sm:h-72"><canvas id="revenue-chart" aria-label="Biểu đồ doanh thu theo tháng"></canvas></div></article>
-        <article class="chart-card rounded-2xl p-4 sm:p-6"><div class="mb-4 flex items-center justify-between"><h3 class="font-heading text-sm font-semibold text-slate-200">Doanh thu theo kênh</h3><span class="text-xs text-slate-500">Kỳ hiện tại</span></div><div class="h-64 sm:h-72"><canvas id="channel-chart" aria-label="Biểu đồ doanh thu theo kênh"></canvas></div></article>
+        <article class="chart-card rounded-2xl p-4 sm:p-6"><div class="mb-4 flex items-center justify-between"><h3 class="font-heading text-sm font-semibold text-slate-200">Doanh thu theo tháng</h3><span class="text-xs text-slate-500">Đơn vị: triệu đồng</span></div><div class="h-64 sm:h-72"><canvas id="revenue-chart" role="img" aria-label="Biểu đồ đường doanh thu theo tháng"></canvas></div></article>
+        <article class="chart-card rounded-2xl p-4 sm:p-6"><div class="mb-4 flex items-center justify-between"><h3 class="font-heading text-sm font-semibold text-slate-200">Doanh thu theo kênh</h3><span class="text-xs text-slate-500">Kỳ hiện tại</span></div><div class="h-64 sm:h-72"><canvas id="channel-chart" role="img" aria-label="Biểu đồ tròn doanh thu theo kênh"></canvas></div></article>
       </div>
       <div class="chart-card mt-5 rounded-2xl p-4 sm:p-6"><h3 class="mb-4 font-heading text-sm font-semibold text-slate-200">Chi tiết doanh thu</h3><div class="table-wrap"><table class="report-table w-full border-collapse text-left"><caption class="sr-only">Chi tiết doanh thu theo tháng</caption><thead><tr><th>Tháng</th><th class="text-right">Doanh thu</th><th class="text-right">Đơn hàng</th><th class="text-right">Giá trị đơn TB</th><th class="text-right">Tăng trưởng</th></tr></thead><tbody id="revenue-table"></tbody></table></div></div>
     </section>
@@ -91,56 +71,121 @@
     <section aria-labelledby="business-title" class="relative mb-8">
       <div class="mb-4 flex items-center gap-3"><span class="rounded-xl bg-emerald-400/10 p-2 text-emerald-300"><i data-lucide="briefcase-business" class="h-5 w-5"></i></span><div><h2 id="business-title" class="font-heading text-xl font-bold text-white">Kết quả kinh doanh</h2><p class="text-xs text-slate-500">Theo dõi doanh thu, chi phí và lợi nhuận</p></div></div>
       <div class="grid gap-5 lg:grid-cols-[1.45fr_1fr]">
-        <article class="chart-card rounded-2xl p-4 sm:p-6"><div class="mb-4 flex items-center justify-between"><h3 class="font-heading text-sm font-semibold text-slate-200">Biên lợi nhuận theo tháng</h3><span class="text-xs text-slate-500">Đơn vị: %</span></div><div class="h-64 sm:h-72"><canvas id="profit-chart" aria-label="Biểu đồ biên lợi nhuận theo tháng"></canvas></div></article>
-        <article class="chart-card rounded-2xl p-4 sm:p-6"><div class="mb-4 flex items-center justify-between"><h3 class="font-heading text-sm font-semibold text-slate-200">Cơ cấu chi phí</h3><span class="text-xs text-slate-500">Kỳ hiện tại</span></div><div class="h-64 sm:h-72"><canvas id="cost-chart" aria-label="Biểu đồ cơ cấu chi phí"></canvas></div></article>
+        <article class="chart-card rounded-2xl p-4 sm:p-6"><div class="mb-4 flex items-center justify-between"><h3 class="font-heading text-sm font-semibold text-slate-200">Biên lợi nhuận theo tháng</h3><span class="text-xs text-slate-500">Đơn vị: %</span></div><div class="h-64 sm:h-72"><canvas id="profit-chart" role="img" aria-label="Biểu đồ cột biên lợi nhuận theo tháng"></canvas></div></article>
+        <article class="chart-card rounded-2xl p-4 sm:p-6"><div class="mb-4 flex items-center justify-between"><h3 class="font-heading text-sm font-semibold text-slate-200">Cơ cấu chi phí</h3><span class="text-xs text-slate-500">Kỳ hiện tại</span></div><div class="h-64 sm:h-72"><canvas id="cost-chart" role="img" aria-label="Biểu đồ tròn cơ cấu chi phí"></canvas></div></article>
       </div>
       <div class="chart-card mt-5 rounded-2xl p-4 sm:p-6"><h3 class="mb-4 font-heading text-sm font-semibold text-slate-200">Bảng kết quả kinh doanh</h3><div class="table-wrap"><table class="report-table w-full border-collapse text-left"><caption class="sr-only">Bảng kết quả kinh doanh</caption><thead><tr><th>Chỉ tiêu</th><th class="text-right">Kỳ này</th><th class="text-right">Kỳ trước</th><th class="text-right">Thay đổi</th></tr></thead><tbody><tr><td>Doanh thu thuần</td><td class="text-right">₫1.240.000.000</td><td class="text-right">₫1.080.000.000</td><td class="text-right text-emerald-400">+14,8%</td></tr><tr><td>Giá vốn hàng bán</td><td class="text-right">₫682.000.000</td><td class="text-right">₫616.000.000</td><td class="text-right text-amber-300">+10,7%</td></tr><tr><td>Lợi nhuận gộp</td><td class="text-right">₫558.000.000</td><td class="text-right">₫464.000.000</td><td class="text-right text-emerald-400">+20,3%</td></tr><tr><td>Lợi nhuận ròng</td><td class="text-right">₫286.000.000</td><td class="text-right">₫242.000.000</td><td class="text-right text-emerald-400">+18,2%</td></tr></tbody></table></div></div>
     </section>
 
-    <section aria-labelledby="marketing-title" class="relative mb-6">
+    <section aria-labelledby="marketing-title" class="relative mb-8">
       <div class="mb-4 flex items-center gap-3"><span class="rounded-xl bg-blue-400/10 p-2 text-blue-300"><i data-lucide="megaphone" class="h-5 w-5"></i></span><div><h2 id="marketing-title" class="font-heading text-xl font-bold text-white">Số liệu marketing</h2><p class="text-xs text-slate-500">Đo lường chi phí và hiệu quả các chiến dịch</p></div></div>
       <div class="grid gap-5 lg:grid-cols-[1.45fr_1fr]">
-        <article class="chart-card rounded-2xl p-4 sm:p-6"><div class="mb-4 flex items-center justify-between"><h3 class="font-heading text-sm font-semibold text-slate-200">Chi phí và doanh thu marketing</h3><span class="text-xs text-slate-500">Đơn vị: triệu đồng</span></div><div class="h-64 sm:h-72"><canvas id="marketing-chart" aria-label="Biểu đồ chi phí và doanh thu marketing"></canvas></div></article>
-        <article class="chart-card rounded-2xl p-4 sm:p-6"><div class="mb-4 flex items-center justify-between"><h3 class="font-heading text-sm font-semibold text-slate-200">Hiệu quả theo chiến dịch</h3><span class="text-xs text-slate-500">ROAS</span></div><div class="h-64 sm:h-72"><canvas id="campaign-chart" aria-label="Biểu đồ ROAS theo chiến dịch"></canvas></div></article>
+        <article class="chart-card rounded-2xl p-4 sm:p-6"><div class="mb-4 flex items-center justify-between"><h3 class="font-heading text-sm font-semibold text-slate-200">Chi phí và doanh thu marketing</h3><span class="text-xs text-slate-500">Đơn vị: triệu đồng</span></div><div class="h-64 sm:h-72"><canvas id="marketing-chart" role="img" aria-label="Biểu đồ đường chi phí và doanh thu marketing"></canvas></div></article>
+        <article class="chart-card rounded-2xl p-4 sm:p-6"><div class="mb-4 flex items-center justify-between"><h3 class="font-heading text-sm font-semibold text-slate-200">Hiệu quả theo chiến dịch</h3><span class="text-xs text-slate-500">ROAS</span></div><div class="h-64 sm:h-72"><canvas id="campaign-chart" role="img" aria-label="Biểu đồ cột ROAS theo chiến dịch"></canvas></div></article>
       </div>
       <div class="chart-card mt-5 rounded-2xl p-4 sm:p-6"><h3 class="mb-4 font-heading text-sm font-semibold text-slate-200">Chi tiết marketing</h3><div class="table-wrap"><table class="report-table w-full border-collapse text-left"><caption class="sr-only">Chi tiết số liệu marketing theo chiến dịch</caption><thead><tr><th>Chiến dịch</th><th class="text-right">Chi phí</th><th class="text-right">Lượt hiển thị</th><th class="text-right">Đơn hàng</th><th class="text-right">ROAS</th></tr></thead><tbody><tr><td>Tìm kiếm thương hiệu</td><td class="text-right">₫28.000.000</td><td class="text-right">1.240.000</td><td class="text-right">1.842</td><td class="text-right text-emerald-400">5,8x</td></tr><tr><td>Quảng cáo mạng xã hội</td><td class="text-right">₫42.000.000</td><td class="text-right">2.860.000</td><td class="text-right">1.426</td><td class="text-right text-emerald-400">4,1x</td></tr><tr><td>Tiếp thị lại</td><td class="text-right">₫19.000.000</td><td class="text-right">680.000</td><td class="text-right">1.118</td><td class="text-right text-emerald-400">6,4x</td></tr><tr><td>Email và khách hàng cũ</td><td class="text-right">₫8.000.000</td><td class="text-right">420.000</td><td class="text-right">764</td><td class="text-right text-emerald-400">7,2x</td></tr></tbody></table></div></div>
     </section>
-    <section id="ranking-panel" class="report-panel relative mb-8" role="tabpanel" aria-labelledby="ranking-tab">
-      <div class="mb-4 flex items-center gap-3"><span class="rounded-xl bg-amber-300/10 p-2 text-amber-300"><i data-lucide="trophy" class="h-5 w-5"></i></span><div><h2 class="font-heading text-xl font-bold text-white">Top 10 nhân viên bán hàng</h2><p class="text-xs text-slate-500">Xếp hạng theo doanh thu trong tháng / quý này</p></div></div>
-      <div class="chart-card rounded-2xl p-4 sm:p-6"><div class="mb-4 flex flex-wrap items-center justify-between gap-3"><h3 class="font-heading text-sm font-semibold text-slate-200">Bảng xếp hạng</h3><div class="flex rounded-lg border border-white/[0.1] p-1" role="group" aria-label="Chọn kỳ xếp hạng"><button type="button" class="ranking-period rounded-md bg-primary px-3 py-1.5 text-xs font-semibold text-white" data-ranking-period="month">Tháng này</button><button type="button" class="ranking-period rounded-md px-3 py-1.5 text-xs font-semibold text-slate-400 hover:text-white" data-ranking-period="quarter">Quý này</button></div></div><div class="table-wrap"><table class="report-table w-full border-collapse text-left"><caption class="sr-only">Top 10 nhân viên bán hàng xuất sắc</caption><thead><tr><th>Hạng</th><th>Nhân viên</th><th class="text-right">Doanh thu</th><th class="text-right">Đơn hàng</th><th class="text-right">Tỷ lệ đạt</th></tr></thead><tbody id="ranking-table"></tbody></table></div></div>
+
+    <section id="ranking-panel" class="relative mb-8" role="tabpanel" aria-labelledby="ranking-tab" tabindex="0">
+      <div class="mb-4 flex items-center gap-3"><span class="rounded-xl bg-amber-300/10 p-2 text-amber-300"><i data-lucide="trophy" class="h-5 w-5"></i></span><div><h2 class="font-heading text-xl font-bold text-white">Top 10 nhân viên bán hàng xuất sắc</h2><p class="text-xs text-slate-500">Xếp hạng theo doanh thu trong tháng / quý này</p></div></div>
+      <div class="chart-card rounded-2xl p-4 sm:p-6">
+        <div class="mb-4 flex flex-wrap items-center justify-between gap-3">
+          <h3 class="font-heading text-sm font-semibold text-slate-200">Bảng xếp hạng</h3>
+          <div class="flex rounded-lg border border-white/[0.1] p-1" role="group" aria-label="Chọn kỳ xếp hạng">
+            <button type="button" class="ranking-period rounded-md bg-primary px-3 py-1.5 text-xs font-semibold text-white transition" data-ranking-period="month" aria-pressed="true">Tháng này</button>
+            <button type="button" class="ranking-period rounded-md px-3 py-1.5 text-xs font-semibold text-slate-400 transition hover:text-white" data-ranking-period="quarter" aria-pressed="false">Quý này</button>
+          </div>
+        </div>
+        <div class="table-wrap"><table class="report-table w-full border-collapse text-left"><caption class="sr-only">Top 10 nhân viên bán hàng xuất sắc theo doanh thu</caption><thead><tr><th>Hạng</th><th>Nhân viên</th><th>Bộ phận</th><th class="text-right">Doanh thu</th><th class="text-right">Đơn hàng</th><th class="text-right">Tỷ lệ đạt KPI</th></tr></thead><tbody id="ranking-table"></tbody></table></div>
+      </div>
     </section>
 
-    <section id="region-panel" class="report-panel relative mb-8" role="tabpanel" aria-labelledby="region-tab" hidden>
+    <section id="region-panel" class="relative mb-8" role="tabpanel" aria-labelledby="region-tab" tabindex="0" hidden>
       <div class="mb-4 flex items-center gap-3"><span class="rounded-xl bg-blue-400/10 p-2 text-blue-300"><i data-lucide="map" class="h-5 w-5"></i></span><div><h2 class="font-heading text-xl font-bold text-white">Doanh thu theo khu vực địa lý</h2><p class="text-xs text-slate-500">So sánh doanh thu giữa các vùng trên toàn quốc</p></div></div>
-      <article class="chart-card rounded-2xl p-4 sm:p-6"><div class="mb-4 flex items-center justify-between"><h3 class="font-heading text-sm font-semibold text-slate-200">Doanh thu theo khu vực</h3><span class="text-xs text-slate-500">Đơn vị: triệu đồng</span></div><div class="h-80 sm:h-96"><canvas id="region-chart" aria-label="Biểu đồ cột doanh thu theo khu vực địa lý"></canvas></div></article>
-      <div class="chart-card mt-5 rounded-2xl p-4 sm:p-6"><h3 class="mb-4 font-heading text-sm font-semibold text-slate-200">Bảng doanh thu theo khu vực</h3><div class="table-wrap"><table class="report-table w-full border-collapse text-left"><caption class="sr-only">Doanh thu theo khu vực địa lý</caption><thead><tr><th>Khu vực</th><th class="text-right">Doanh thu</th><th class="text-right">Tỷ trọng</th><th class="text-right">Tăng trưởng</th></tr></thead><tbody><tr><td>Đông Nam Bộ</td><td class="text-right">₫486 triệu</td><td class="text-right">39,2%</td><td class="text-right text-emerald-400">+18,4%</td></tr><tr><td>Đồng bằng sông Hồng</td><td class="text-right">₫372 triệu</td><td class="text-right">30,0%</td><td class="text-right text-emerald-400">+15,1%</td></tr><tr><td>Duyên hải miền Trung</td><td class="text-right">₫186 triệu</td><td class="text-right">15,0%</td><td class="text-right text-emerald-400">+11,8%</td></tr><tr><td>Đồng bằng sông Cửu Long</td><td class="text-right">₫124 triệu</td><td class="text-right">10,0%</td><td class="text-right text-emerald-400">+9,6%</td></tr><tr><td>Tây Nguyên &amp; miền núi</td><td class="text-right">₫72 triệu</td><td class="text-right">5,8%</td><td class="text-right text-emerald-400">+7,2%</td></tr></tbody></table></div></div>
+      <article class="chart-card rounded-2xl p-4 sm:p-6"><div class="mb-4 flex items-center justify-between"><h3 class="font-heading text-sm font-semibold text-slate-200">Doanh thu theo khu vực</h3><span class="text-xs text-slate-500">Đơn vị: triệu đồng</span></div><div class="h-80 sm:h-96"><canvas id="region-chart" role="img" aria-label="Biểu đồ cột doanh thu theo khu vực địa lý"></canvas></div></article>
+      <div class="chart-card mt-5 rounded-2xl p-4 sm:p-6"><h3 class="mb-4 font-heading text-sm font-semibold text-slate-200">Bảng doanh thu theo khu vực</h3><div class="table-wrap"><table class="report-table w-full border-collapse text-left"><caption class="sr-only">Doanh thu theo khu vực địa lý</caption><thead><tr><th>Khu vực</th><th class="text-right">Doanh thu</th><th class="text-right">Tỷ trọng</th><th class="text-right">Tăng trưởng</th></tr></thead><tbody id="region-table"></tbody></table></div></div>
     </section>
 
-    <footer class="border-t border-white/[0.08] pt-5 text-xs text-slate-500">Dữ liệu minh họa • Cập nhật lần cuối: 05/09/2026</footer>
+    <footer class="relative border-t border-white/[0.08] pt-5 text-xs text-slate-500">
+      <p>Dữ liệu minh họa • Cập nhật lần cuối: 06/09/2026</p>
+      <p class="mt-1">Trở lại <a href="login.html" class="font-semibold text-primary-light transition hover:text-white">trang đăng nhập</a></p>
+    </footer>
   </main>
 
   <script>
     lucide.createIcons();
+
     Chart.defaults.font.family = 'Inter, sans-serif';
     Chart.defaults.color = '#94a3b8';
     Chart.defaults.borderColor = 'rgba(255,255,255,.08)';
+
     const months = ['Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9'];
     const revenue = [168, 192, 205, 218, 224, 233];
     const orders = [2380, 2670, 2910, 3180, 3410, 4092];
     const tooltip = { backgroundColor: '#111322', borderColor: 'rgba(255,255,255,.12)', borderWidth: 1, titleColor: '#fff', bodyColor: '#cbd5e1', padding: 12, displayColors: true };
-    const common = { responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false }, plugins: { legend: { labels: { usePointStyle: true, padding: 18, color: '#cbd5e1' } }, tooltip }, scales: { x: { grid: { display: false }, ticks: { color: '#898781' } }, y: { grid: { color: 'rgba(255,255,255,.07)' }, ticks: { color: '#898781' } } } };
-    const charts = {};
-    charts.revenue = new Chart(document.getElementById('revenue-chart'), { type: 'line', data: { labels: months, datasets: [{ label: 'Doanh thu', data: revenue, borderColor: '#DF6B33', backgroundColor: 'rgba(223,107,51,.12)', fill: true, tension: .35, borderWidth: 2, pointRadius: 4, pointHoverRadius: 7, pointBackgroundColor: '#DF6B33' }] }, options: { ...common, scales: { ...common.scales, y: { ...common.scales.y, beginAtZero: true, ticks: { ...common.scales.y.ticks, callback: value => value + 'tr' } } } } });
-    charts.channel = new Chart(document.getElementById('channel-chart'), { type: 'doughnut', data: { labels: ['Website', 'Sàn TMĐT', 'Mạng xã hội'], datasets: [{ data: [46, 38, 16], backgroundColor: ['#3987e5', '#DF6B33', '#199e70'], borderColor: '#151625', borderWidth: 3, hoverOffset: 8 }] }, options: { responsive: true, maintainAspectRatio: false, cutout: '68%', plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, padding: 18, color: '#cbd5e1' } }, tooltip } } });
-    charts.profit = new Chart(document.getElementById('profit-chart'), { type: 'bar', data: { labels: months, datasets: [{ label: 'Biên lợi nhuận', data: [19.8, 20.9, 21.4, 22.1, 22.8, 23.1], backgroundColor: '#199e70', borderRadius: 4, borderSkipped: false, barPercentage: .62 }] }, options: { ...common, plugins: { ...common.plugins, legend: { display: false } }, scales: { ...common.scales, y: { ...common.scales.y, beginAtZero: true, max: 30, ticks: { ...common.scales.y.ticks, callback: value => value + '%' } } } } });
-    charts.cost = new Chart(document.getElementById('cost-chart'), { type: 'doughnut', data: { labels: ['Giá vốn', 'Marketing', 'Vận hành', 'Khác'], datasets: [{ data: [55, 12, 25, 8], backgroundColor: ['#3987e5', '#DF6B33', '#199e70', '#9085e9'], borderColor: '#151625', borderWidth: 3, hoverOffset: 8 }] }, options: { responsive: true, maintainAspectRatio: false, cutout: '68%', plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, padding: 12, color: '#cbd5e1' } }, tooltip } } });
-    charts.marketing = new Chart(document.getElementById('marketing-chart'), { type: 'line', data: { labels: months, datasets: [{ label: 'Doanh thu từ marketing', data: [312, 348, 386, 425, 448, 472], borderColor: '#3987e5', tension: .35, borderWidth: 2, pointRadius: 4, pointHoverRadius: 7 }, { label: 'Chi phí marketing', data: [72, 78, 81, 86, 89, 97], borderColor: '#DF6B33', tension: .35, borderWidth: 2, pointRadius: 4, pointHoverRadius: 7 }] }, options: { ...common, scales: { ...common.scales, y: { ...common.scales.y, beginAtZero: true, ticks: { ...common.scales.y.ticks, callback: value => value + 'tr' } } } } });
-    charts.campaign = new Chart(document.getElementById('campaign-chart'), { type: 'bar', data: { labels: ['Tìm kiếm', 'Mạng xã hội', 'Tiếp thị lại', 'Email'], datasets: [{ label: 'ROAS', data: [5.8, 4.1, 6.4, 7.2], backgroundColor: ['#3987e5', '#DF6B33', '#199e70', '#9085e9'], borderRadius: 4, borderSkipped: false, barPercentage: .62 }] }, options: { ...common, plugins: { ...common.plugins, legend: { display: false } }, scales: { ...common.scales, y: { ...common.scales.y, beginAtZero: true, ticks: { ...common.scales.y.ticks, callback: value => value + 'x' } } } } });
+    const axisTicks = { color: '#898781' };
+    const common = { responsive: true, maintainAspectRatio: false, interaction: { mode: 'index', intersect: false }, plugins: { legend: { labels: { usePointStyle: true, padding: 18, color: '#cbd5e1' } }, tooltip }, scales: { x: { grid: { display: false }, ticks: axisTicks }, y: { grid: { color: 'rgba(255,255,255,.07)' }, ticks: axisTicks } } };
+    const yMoney = { ...common.scales.y, beginAtZero: true, ticks: { ...axisTicks, callback: value => value + ' tr' } };
 
-    const table = document.getElementById('revenue-table');
-    months.forEach((month, index) => { const row = document.createElement('tr'); const growth = index === 0 ? '—' : '+' + ((revenue[index] / revenue[index - 1] - 1) * 100).toFixed(1).replace('.', ',') + '%'; row.innerHTML = `<td>${month}</td><td class="text-right">₫${revenue[index]} triệu</td><td class="text-right">${orders[index].toLocaleString('vi-VN')}</td><td class="text-right">₫${Math.round(revenue[index] * 1000000 / orders[index]).toLocaleString('vi-VN')}</td><td class="text-right ${index ? 'text-emerald-400' : 'text-slate-500'}">${growth}</td>`; table.appendChild(row); });
-    document.getElementById('period').addEventListener('change', (event) => { if (event.target.value === '12') alert('Bản demo hiện hiển thị dữ liệu 6 tháng gần nhất.'); });
-    document.getElementById('channel').addEventListener('change', (event) => { if (event.target.value !== 'all') alert('Bộ lọc kênh bán hàng là dữ liệu minh họa.'); });
+    const charts = {};
+    charts.revenue = new Chart(document.getElementById('revenue-chart'), { type: 'line', data: { labels: months, datasets: [{ label: 'Doanh thu', data: revenue, borderColor: '#DF6B33', backgroundColor: 'rgba(223,107,51,.12)', fill: true, tension: .35, borderWidth: 2, pointRadius: 4, pointHoverRadius: 7, pointBackgroundColor: '#DF6B33' }] }, options: { ...common, plugins: { ...common.plugins, legend: { display: false } }, scales: { ...common.scales, y: yMoney } } });
+    charts.channel = new Chart(document.getElementById('channel-chart'), { type: 'doughnut', data: { labels: ['Website', 'Sàn TMĐT', 'Mạng xã hội'], datasets: [{ data: [46, 38, 16], backgroundColor: ['#3987e5', '#DF6B33', '#199e70'], borderColor: '#151625', borderWidth: 3, hoverOffset: 8 }] }, options: { responsive: true, maintainAspectRatio: false, cutout: '68%', plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, padding: 18, color: '#cbd5e1' } }, tooltip } } });
+    charts.profit = new Chart(document.getElementById('profit-chart'), { type: 'bar', data: { labels: months, datasets: [{ label: 'Biên lợi nhuận', data: [19.8, 20.9, 21.4, 22.1, 22.8, 23.1], backgroundColor: '#199e70', borderRadius: 4, borderSkipped: false, barPercentage: .62 }] }, options: { ...common, plugins: { ...common.plugins, legend: { display: false } }, scales: { ...common.scales, y: { ...common.scales.y, beginAtZero: true, max: 30, ticks: { ...axisTicks, callback: value => value + '%' } } } } });
+    charts.cost = new Chart(document.getElementById('cost-chart'), { type: 'doughnut', data: { labels: ['Giá vốn', 'Marketing', 'Vận hành', 'Khác'], datasets: [{ data: [55, 12, 25, 8], backgroundColor: ['#3987e5', '#DF6B33', '#199e70', '#9085e9'], borderColor: '#151625', borderWidth: 3, hoverOffset: 8 }] }, options: { responsive: true, maintainAspectRatio: false, cutout: '68%', plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, padding: 12, color: '#cbd5e1' } }, tooltip } } });
+    charts.marketing = new Chart(document.getElementById('marketing-chart'), { type: 'line', data: { labels: months, datasets: [{ label: 'Doanh thu từ marketing', data: [312, 348, 386, 425, 448, 472], borderColor: '#3987e5', tension: .35, borderWidth: 2, pointRadius: 4, pointHoverRadius: 7 }, { label: 'Chi phí marketing', data: [72, 78, 81, 86, 89, 97], borderColor: '#DF6B33', tension: .35, borderWidth: 2, pointRadius: 4, pointHoverRadius: 7 }] }, options: { ...common, scales: { ...common.scales, y: yMoney } } });
+    charts.campaign = new Chart(document.getElementById('campaign-chart'), { type: 'bar', data: { labels: ['Tìm kiếm', 'Mạng xã hội', 'Tiếp thị lại', 'Email'], datasets: [{ label: 'ROAS', data: [5.8, 4.1, 6.4, 7.2], backgroundColor: ['#3987e5', '#DF6B33', '#199e70', '#9085e9'], borderRadius: 4, borderSkipped: false, barPercentage: .62 }] }, options: { ...common, plugins: { ...common.plugins, legend: { display: false } }, scales: { ...common.scales, y: { ...common.scales.y, beginAtZero: true, ticks: { ...axisTicks, callback: value => value + 'x' } } } } });
+
+    const revenueTable = document.getElementById('revenue-table');
+    months.forEach((month, index) => {
+      const row = document.createElement('tr');
+      const growth = index === 0 ? '—' : '+' + ((revenue[index] / revenue[index - 1] - 1) * 100).toFixed(1).replace('.', ',') + '%';
+      row.innerHTML = `<td>${month}</td><td class="text-right">₫${revenue[index]} triệu</td><td class="text-right">${orders[index].toLocaleString('vi-VN')}</td><td class="text-right">₫${Math.round(revenue[index] * 1000000 / orders[index]).toLocaleString('vi-VN')}</td><td class="text-right ${index ? 'text-emerald-400' : 'text-slate-500'}">${growth}</td>`;
+      revenueTable.appendChild(row);
+    });
+
+    const rankingData = {
+      month: [
+        ['Nguyễn Minh Anh', 'Khu vực miền Nam', 128, 184], ['Trần Quốc Bảo', 'Khu vực miền Bắc', 116, 169], ['Lê Hoàng Nam', 'Khu vực miền Trung', 104, 151], ['Phạm Thu Hà', 'Khu vực miền Nam', 98, 143], ['Vũ Đức Long', 'Khu vực miền Bắc', 91, 132], ['Đỗ Ngọc Mai', 'Khu vực miền Trung', 86, 125], ['Hoàng Gia Huy', 'Khu vực miền Nam', 78, 114], ['Bùi Khánh Linh', 'Khu vực miền Bắc', 72, 106], ['Phan Tuấn Kiệt', 'Khu vực miền Trung', 65, 98], ['Đặng Thanh Tâm', 'Khu vực miền Nam', 59, 87]
+      ],
+      quarter: [
+        ['Nguyễn Minh Anh', 'Khu vực miền Nam', 368, 524], ['Trần Quốc Bảo', 'Khu vực miền Bắc', 342, 498], ['Lê Hoàng Nam', 'Khu vực miền Trung', 315, 461], ['Phạm Thu Hà', 'Khu vực miền Nam', 294, 432], ['Vũ Đức Long', 'Khu vực miền Bắc', 276, 406], ['Đỗ Ngọc Mai', 'Khu vực miền Trung', 259, 381], ['Hoàng Gia Huy', 'Khu vực miền Nam', 238, 349], ['Bùi Khánh Linh', 'Khu vực miền Bắc', 221, 327], ['Phan Tuấn Kiệt', 'Khu vực miền Trung', 205, 301], ['Đặng Thanh Tâm', 'Khu vực miền Nam', 188, 276]
+      ]
+    };
+    const rankingTable = document.getElementById('ranking-table');
+    function renderRanking(period) {
+      rankingTable.replaceChildren();
+      rankingData[period].forEach(([name, region, amount, orderCount], index) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `<td class="font-semibold ${index < 3 ? 'text-amber-300' : 'text-slate-400'}">${index + 1}</td><td>${name}</td><td class="text-slate-400">${region}</td><td class="text-right">₫${amount} triệu</td><td class="text-right">${orderCount}</td><td class="text-right text-emerald-400">${Math.min(99, Math.round(amount / 1.5))}%</td>`;
+        rankingTable.appendChild(row);
+      });
+    }
+    renderRanking('month');
+    document.querySelectorAll('.ranking-period').forEach((button) => button.addEventListener('click', () => {
+      document.querySelectorAll('.ranking-period').forEach((item) => { item.classList.remove('bg-primary', 'text-white'); item.classList.add('text-slate-400'); item.setAttribute('aria-pressed', 'false'); });
+      button.classList.add('bg-primary', 'text-white'); button.classList.remove('text-slate-400'); button.setAttribute('aria-pressed', 'true');
+      renderRanking(button.dataset.rankingPeriod);
+    }));
+
+    const regions = [
+      ['Đông Nam Bộ', 486, '39,2%', '+18,4%'], ['Đồng bằng sông Hồng', 372, '30,0%', '+15,1%'], ['Duyên hải miền Trung', 186, '15,0%', '+11,8%'], ['Đồng bằng sông Cửu Long', 124, '10,0%', '+9,6%'], ['Tây Nguyên & miền núi', 72, '5,8%', '+7,2%']
+    ];
+    charts.region = new Chart(document.getElementById('region-chart'), { type: 'bar', data: { labels: regions.map(region => region[0]), datasets: [{ label: 'Doanh thu', data: regions.map(region => region[1]), backgroundColor: '#3987e5', borderRadius: 5, borderSkipped: false, barPercentage: .62 }] }, options: { ...common, indexAxis: 'y', plugins: { ...common.plugins, legend: { display: false } }, scales: { x: { beginAtZero: true, ticks: { ...axisTicks, callback: value => value + ' tr' }, grid: { color: 'rgba(255,255,255,.07)' } }, y: { grid: { display: false }, ticks: { color: '#cbd5e1' } } } } });
+    const regionTable = document.getElementById('region-table');
+    regions.forEach(([region, amount, share, growth]) => {
+      const row = document.createElement('tr');
+      row.innerHTML = `<td>${region}</td><td class="text-right">₫${amount} triệu</td><td class="text-right">${share}</td><td class="text-right text-emerald-400">${growth}</td>`;
+      regionTable.appendChild(row);
+    });
+
+    document.querySelectorAll('.report-tab').forEach((tab) => tab.addEventListener('click', () => {
+      document.querySelectorAll('.report-tab').forEach((item) => item.setAttribute('aria-selected', 'false'));
+      document.querySelectorAll('[role="tabpanel"]').forEach((panel) => { panel.hidden = true; });
+      tab.setAttribute('aria-selected', 'true');
+      const panel = document.getElementById(tab.dataset.tab);
+      panel.hidden = false;
+      charts.region.resize();
+    }));
   </script>
 </body>
 </html>

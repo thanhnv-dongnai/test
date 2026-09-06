@@ -4,224 +4,125 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Create account — Your platform</title>
-
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            ink: '#090A14',
-            primary: '#DF6B33',
-            'primary-light': '#F58A50'
-          },
-          fontFamily: {
-            heading: ['Poppins', 'sans-serif'],
-            body: ['Inter', 'sans-serif']
-          },
-          boxShadow: {
-            glow: '0 0 0 1px rgba(223, 107, 51, 0.12), 0 24px 80px rgba(0, 0, 0, 0.35)'
-          }
-        }
-      }
-    };
+    tailwind.config = { theme: { extend: {
+      colors: { ink: '#090A14', primary: '#DF6B33', 'primary-light': '#F58A50' },
+      fontFamily: { heading: ['Poppins', 'sans-serif'], body: ['Inter', 'sans-serif'] },
+      boxShadow: { glow: '0 0 0 1px rgba(223,107,51,.12), 0 24px 80px rgba(0,0,0,.35)' }
+    } } };
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet" />
   <script src="https://unpkg.com/lucide@latest"></script>
-
   <style>
-    html { color-scheme: dark; }
-    body { background: #090A14; }
-    .input-field:focus-within { box-shadow: 0 0 0 3px rgba(223, 107, 51, .14); }
-    .social-button:hover { border-color: rgba(223, 107, 51, .65); background: rgba(223, 107, 51, .08); }
+    html { color-scheme: dark; } body { background: #090A14; }
+    .input-field:focus-within { box-shadow: 0 0 0 3px rgba(223,107,51,.14); }
+    select option { background: #090A14; }
   </style>
 </head>
 <body class="min-h-screen bg-ink font-body text-slate-100 antialiased">
   <main class="relative flex min-h-screen items-center justify-center overflow-hidden px-4 py-8 sm:px-6">
     <div aria-hidden="true" class="pointer-events-none absolute -left-32 -top-32 h-80 w-80 rounded-full bg-primary/10 blur-3xl"></div>
     <div aria-hidden="true" class="pointer-events-none absolute -bottom-40 -right-32 h-96 w-96 rounded-full bg-primary/10 blur-3xl"></div>
-
     <section class="relative w-full max-w-2xl">
-      <div class="mb-8 text-center sm:mb-10">
-        <div class="mx-auto mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-primary text-white shadow-lg shadow-primary/20" aria-hidden="true">
-          <i data-lucide="sparkles" class="h-6 w-6"></i>
-        </div>
+      <header class="mb-8 text-center sm:mb-10">
+        <div class="mx-auto mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-primary text-white shadow-lg shadow-primary/20" aria-hidden="true"><i data-lucide="sparkles" class="h-6 w-6"></i></div>
         <h1 class="font-heading text-2xl font-extrabold tracking-tight text-white sm:text-3xl">Create your account</h1>
         <p class="mt-2 text-sm leading-6 text-slate-400">Sign up to get started with your account</p>
-      </div>
-
-      <div class="rounded-2xl border border-white/[0.08] bg-white/[0.035] p-5 shadow-glow backdrop-blur-xl sm:rounded-3xl sm:p-8">
-        <form id="register-form" action="#" method="post" novalidate class="space-y-5">
+      </header>
+      <div class="rounded-2xl border border-white/[.08] bg-white/[.035] p-5 shadow-glow backdrop-blur-xl sm:rounded-3xl sm:p-8">
+        <form id="register-form" novalidate class="space-y-5">
           <div class="grid gap-5 sm:grid-cols-2">
             <div>
               <label for="full-name" class="mb-2 block text-sm font-medium text-slate-200">Full name <span class="text-primary-light">*</span></label>
-              <div class="input-field flex items-center rounded-xl border border-white/[0.12] bg-black/20 transition focus-within:border-primary">
-                <i data-lucide="user" class="ml-3.5 h-[18px] w-[18px] shrink-0 text-slate-500"></i>
-                <input id="full-name" name="fullName" type="text" autocomplete="name" required placeholder="Enter your full name" class="w-full min-w-0 bg-transparent px-3 py-3.5 text-sm text-white outline-none placeholder:text-slate-600" />
-              </div>
-              <p id="full-name-error" class="mt-1 hidden items-center gap-1 text-xs text-red-400"><i data-lucide="alert-triangle" class="h-3 w-3"></i><span>Full name is required</span></p>
+              <div class="input-field flex items-center rounded-xl border border-white/[.12] bg-black/20 transition focus-within:border-primary"><i data-lucide="user" class="ml-3.5 h-[18px] w-[18px] shrink-0 text-slate-500"></i><input id="full-name" type="text" autocomplete="name" required placeholder="Enter your full name" class="w-full min-w-0 bg-transparent px-3 py-3.5 text-sm text-white outline-none placeholder:text-slate-600" /></div>
+              <p class="error mt-1 flex min-h-4 items-center gap-1 text-xs text-red-400" aria-live="polite" data-error="full-name"></p>
             </div>
-
             <div>
               <label for="email" class="mb-2 block text-sm font-medium text-slate-200">Email <span class="text-primary-light">*</span></label>
-              <div class="input-field flex items-center rounded-xl border border-white/[0.12] bg-black/20 transition focus-within:border-primary">
-                <i data-lucide="mail" class="ml-3.5 h-[18px] w-[18px] shrink-0 text-slate-500"></i>
-                <input id="email" name="email" type="email" autocomplete="email" required placeholder="you@example.com" class="w-full min-w-0 bg-transparent px-3 py-3.5 text-sm text-white outline-none placeholder:text-slate-600" />
-              </div>
-              <p id="email-error" class="mt-1 hidden items-center gap-1 text-xs text-red-400"><i data-lucide="alert-triangle" class="h-3 w-3"></i><span>Email is required</span></p>
+              <div class="input-field flex items-center rounded-xl border border-white/[.12] bg-black/20 transition focus-within:border-primary"><i data-lucide="mail" class="ml-3.5 h-[18px] w-[18px] shrink-0 text-slate-500"></i><input id="email" type="email" autocomplete="email" required placeholder="you@example.com" class="w-full min-w-0 bg-transparent px-3 py-3.5 text-sm text-white outline-none placeholder:text-slate-600" /></div>
+              <p class="error mt-1 flex min-h-4 items-center gap-1 text-xs text-red-400" aria-live="polite" data-error="email"></p>
             </div>
           </div>
-
           <div class="grid gap-5 sm:grid-cols-2">
             <div>
               <label for="password" class="mb-2 block text-sm font-medium text-slate-200">Password <span class="text-primary-light">*</span></label>
-              <div class="input-field flex items-center rounded-xl border border-white/[0.12] bg-black/20 transition focus-within:border-primary">
-                <i data-lucide="lock-keyhole" class="ml-3.5 h-[18px] w-[18px] shrink-0 text-slate-500"></i>
-                <input id="password" name="password" type="password" autocomplete="new-password" required placeholder="Create a password" class="w-full min-w-0 bg-transparent px-3 py-3.5 text-sm text-white outline-none placeholder:text-slate-600" />
-                <button type="button" data-toggle-password="password" aria-label="Show password" class="mr-2 rounded-lg p-2 text-slate-500 transition hover:text-slate-200 focus:outline-none focus:ring-2 focus:ring-primary/50"><i data-lucide="eye" class="h-[18px] w-[18px]"></i></button>
-              </div>
-              <p id="password-error" class="mt-1 hidden items-center gap-1 text-xs text-red-400"><i data-lucide="alert-triangle" class="h-3 w-3"></i><span>Password is required</span></p>
+              <div class="input-field flex items-center rounded-xl border border-white/[.12] bg-black/20 transition focus-within:border-primary"><i data-lucide="lock-keyhole" class="ml-3.5 h-[18px] w-[18px] shrink-0 text-slate-500"></i><input id="password" type="password" autocomplete="new-password" required placeholder="Create a password" class="w-full min-w-0 bg-transparent px-3 py-3.5 text-sm text-white outline-none placeholder:text-slate-600" /><button type="button" data-toggle-password="password" aria-label="Show password" class="mr-2 rounded-lg p-2 text-slate-500 transition hover:text-slate-200"><i data-lucide="eye" class="h-[18px] w-[18px]"></i></button></div>
+              <p class="error mt-1 flex min-h-4 items-center gap-1 text-xs text-red-400" aria-live="polite" data-error="password"></p>
             </div>
-
             <div>
               <label for="confirm-password" class="mb-2 block text-sm font-medium text-slate-200">Confirm password <span class="text-primary-light">*</span></label>
-              <div class="input-field flex items-center rounded-xl border border-white/[0.12] bg-black/20 transition focus-within:border-primary">
-                <i data-lucide="shield-check" class="ml-3.5 h-[18px] w-[18px] shrink-0 text-slate-500"></i>
-                <input id="confirm-password" name="confirmPassword" type="password" autocomplete="new-password" required placeholder="Repeat your password" class="w-full min-w-0 bg-transparent px-3 py-3.5 text-sm text-white outline-none placeholder:text-slate-600" />
-                <button type="button" data-toggle-password="confirm-password" aria-label="Show confirm password" class="mr-2 rounded-lg p-2 text-slate-500 transition hover:text-slate-200 focus:outline-none focus:ring-2 focus:ring-primary/50"><i data-lucide="eye" class="h-[18px] w-[18px]"></i></button>
-              </div>
-              <p id="confirm-password-error" class="mt-1 hidden items-center gap-1 text-xs text-red-400"><i data-lucide="alert-triangle" class="h-3 w-3"></i><span>Please confirm your password</span></p>
+              <div class="input-field flex items-center rounded-xl border border-white/[.12] bg-black/20 transition focus-within:border-primary"><i data-lucide="shield-check" class="ml-3.5 h-[18px] w-[18px] shrink-0 text-slate-500"></i><input id="confirm-password" type="password" autocomplete="new-password" required placeholder="Repeat your password" class="w-full min-w-0 bg-transparent px-3 py-3.5 text-sm text-white outline-none placeholder:text-slate-600" /><button type="button" data-toggle-password="confirm-password" aria-label="Show confirm password" class="mr-2 rounded-lg p-2 text-slate-500 transition hover:text-slate-200"><i data-lucide="eye" class="h-[18px] w-[18px]"></i></button></div>
+              <p class="error mt-1 flex min-h-4 items-center gap-1 text-xs text-red-400" aria-live="polite" data-error="confirm-password"></p>
             </div>
           </div>
-
           <div class="grid gap-5 sm:grid-cols-2">
             <div>
               <label for="gender" class="mb-2 block text-sm font-medium text-slate-200">Gender <span class="text-xs font-normal text-slate-500">(optional)</span></label>
-              <div class="input-field flex items-center rounded-xl border border-white/[0.12] bg-black/20 transition focus-within:border-primary">
-                <i data-lucide="venus-and-mars" class="ml-3.5 h-[18px] w-[18px] shrink-0 text-slate-500"></i>
-                <select id="gender" name="gender" class="w-full min-w-0 appearance-none bg-transparent px-3 py-3.5 text-sm text-slate-300 outline-none">
-                  <option value="" class="bg-ink">Select gender</option>
-                  <option value="female" class="bg-ink">Female</option>
-                  <option value="male" class="bg-ink">Male</option>
-                  <option value="other" class="bg-ink">Other</option>
-                  <option value="prefer-not-to-say" class="bg-ink">Prefer not to say</option>
-                </select>
-              </div>
+              <div class="input-field flex items-center rounded-xl border border-white/[.12] bg-black/20 transition focus-within:border-primary"><i data-lucide="users" class="ml-3.5 h-[18px] w-[18px] shrink-0 text-slate-500"></i><select id="gender" class="w-full min-w-0 appearance-none bg-transparent px-3 py-3.5 text-sm text-slate-300 outline-none"><option value="">Select gender</option><option value="female">Female</option><option value="male">Male</option><option value="other">Other</option><option value="prefer-not-to-say">Prefer not to say</option></select></div>
             </div>
-
             <div>
               <label for="phone" class="mb-2 block text-sm font-medium text-slate-200">Phone number <span class="text-xs font-normal text-slate-500">(optional)</span></label>
-              <div class="input-field flex items-center rounded-xl border border-white/[0.12] bg-black/20 transition focus-within:border-primary">
-                <i data-lucide="phone" class="ml-3.5 h-[18px] w-[18px] shrink-0 text-slate-500"></i>
-                <input id="phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel" pattern="[0-9]{10}" maxlength="10" placeholder="10-digit phone number" class="w-full min-w-0 bg-transparent px-3 py-3.5 text-sm text-white outline-none placeholder:text-slate-600" />
-              </div>
-              <p id="phone-error" class="mt-1 hidden items-center gap-1 text-xs text-red-400"><i data-lucide="alert-triangle" class="h-3 w-3"></i><span>Phone number must contain 10 digits</span></p>
+              <div class="input-field flex items-center rounded-xl border border-white/[.12] bg-black/20 transition focus-within:border-primary"><i data-lucide="phone" class="ml-3.5 h-[18px] w-[18px] shrink-0 text-slate-500"></i><input id="phone" type="tel" inputmode="numeric" autocomplete="tel" maxlength="10" placeholder="10-digit phone number" class="w-full min-w-0 bg-transparent px-3 py-3.5 text-sm text-white outline-none placeholder:text-slate-600" /></div>
+              <p class="error mt-1 flex min-h-4 items-center gap-1 text-xs text-red-400" aria-live="polite" data-error="phone"></p>
             </div>
           </div>
-
           <div>
             <label for="address" class="mb-2 block text-sm font-medium text-slate-200">Address <span class="text-xs font-normal text-slate-500">(optional)</span></label>
-            <div class="input-field flex items-center rounded-xl border border-white/[0.12] bg-black/20 transition focus-within:border-primary">
-              <i data-lucide="map-pin" class="ml-3.5 h-[18px] w-[18px] shrink-0 text-slate-500"></i>
-              <input id="address" name="address" type="text" autocomplete="street-address" placeholder="Enter your address" class="w-full min-w-0 bg-transparent px-3 py-3.5 text-sm text-white outline-none placeholder:text-slate-600" />
-            </div>
+            <div class="input-field flex items-center rounded-xl border border-white/[.12] bg-black/20 transition focus-within:border-primary"><i data-lucide="map-pin" class="ml-3.5 h-[18px] w-[18px] shrink-0 text-slate-500"></i><input id="address" type="text" autocomplete="street-address" placeholder="Enter your address" class="w-full min-w-0 bg-transparent px-3 py-3.5 text-sm text-white outline-none placeholder:text-slate-600" /></div>
           </div>
-
           <div>
-            <label class="flex cursor-pointer items-start gap-2.5 text-sm text-slate-400">
-              <input id="terms" name="terms" type="checkbox" required class="mt-0.5 h-4 w-4 shrink-0 cursor-pointer rounded border-white/20 bg-white/5 text-primary accent-primary focus:ring-2 focus:ring-primary/50" />
-              <span>I agree to the <a href="#terms" class="font-medium text-primary-light transition hover:text-white">Terms and Conditions</a> <span class="text-primary-light">*</span></span>
-            </label>
-            <p id="terms-error" class="mt-1 hidden items-center gap-1 text-xs text-red-400"><i data-lucide="alert-triangle" class="h-3 w-3"></i><span>You must agree to the Terms and Conditions</span></p>
+            <label class="flex cursor-pointer items-start gap-2.5 text-sm text-slate-400"><input id="terms" type="checkbox" required class="mt-0.5 h-4 w-4 shrink-0 accent-primary focus:ring-2 focus:ring-primary/50" /><span>I agree to the <a href="#terms" class="font-medium text-primary-light transition hover:text-white">Terms and Conditions</a> <span class="text-primary-light">*</span></span></label>
+            <p class="error mt-1 flex min-h-4 items-center gap-1 text-xs text-red-400" aria-live="polite" data-error="terms"></p>
           </div>
-
-          <button type="submit" class="flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3.5 text-sm font-semibold text-white shadow-lg shadow-primary/20 transition hover:bg-primary-light focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-ink active:scale-[.99]">
-            Create account
-            <i data-lucide="arrow-right" class="h-[18px] w-[18px]"></i>
-          </button>
+          <button type="submit" class="flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3.5 text-sm font-semibold text-white shadow-lg shadow-primary/20 transition hover:bg-primary-light focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-ink active:scale-[.99]">Create account <i data-lucide="arrow-right" class="h-[18px] w-[18px]"></i></button>
         </form>
       </div>
-
-      <p class="mt-7 text-center text-sm text-slate-500">Already have an account?
-        <a href="login.html" class="font-semibold text-primary-light transition hover:text-white focus:outline-none focus:ring-2 focus:ring-primary/50">Back to login</a>
-      </p>
+      <p class="mt-7 text-center text-sm text-slate-500">Already have an account? <a href="login.html" class="font-semibold text-primary-light transition hover:text-white">Back to login</a></p>
     </section>
   </main>
-
   <script>
     lucide.createIcons();
-
     const form = document.getElementById('register-form');
-    const fields = {
-      fullName: document.getElementById('full-name'),
-      email: document.getElementById('email'),
-      password: document.getElementById('password'),
-      confirmPassword: document.getElementById('confirm-password'),
-      phone: document.getElementById('phone'),
-      terms: document.getElementById('terms')
+    const errorFor = id => document.querySelector(`[data-error="${id}"]`);
+    const setError = (id, message) => {
+      const element = errorFor(id);
+      element.textContent = '';
+      if (message) { element.innerHTML = '<i data-lucide="alert-triangle" class="h-3 w-3"></i>'; element.appendChild(document.createTextNode(message)); lucide.createIcons(); }
+      document.getElementById(id).closest('.input-field, label')?.classList.toggle('border-red-500', Boolean(message));
+      return !message;
     };
-    const errors = {
-      fullName: document.getElementById('full-name-error'),
-      email: document.getElementById('email-error'),
-      password: document.getElementById('password-error'),
-      confirmPassword: document.getElementById('confirm-password-error'),
-      phone: document.getElementById('phone-error'),
-      terms: document.getElementById('terms-error')
-    };
-
-    function setError(key, message) {
-      const error = errors[key];
-      if (message) error.querySelector('span').textContent = message;
-      error.classList.remove('hidden');
-      error.classList.add('flex');
-      if (fields[key].parentElement?.classList.contains('input-field')) fields[key].parentElement.classList.add('border-red-500');
-    }
-
-    function clearError(key) {
-      errors[key].classList.add('hidden');
-      errors[key].classList.remove('flex');
-      if (fields[key].parentElement?.classList.contains('input-field')) fields[key].parentElement.classList.remove('border-red-500');
-    }
-
-    document.querySelectorAll('[data-toggle-password]').forEach((button) => {
-      button.addEventListener('click', () => {
-        const input = document.getElementById(button.dataset.togglePassword);
-        const visible = input.type === 'password';
-        input.type = visible ? 'text' : 'password';
-        button.setAttribute('aria-label', visible ? 'Hide password' : 'Show password');
-        button.innerHTML = `<i data-lucide="${visible ? 'eye-off' : 'eye'}" class="h-[18px] w-[18px]"></i>`;
-        lucide.createIcons();
-      });
-    });
-
-    fields.phone.addEventListener('input', () => {
-      fields.phone.value = fields.phone.value.replace(/\D/g, '').slice(0, 10);
-    });
-
-    form.addEventListener('submit', (event) => {
-      event.preventDefault();
-      Object.keys(errors).forEach(clearError);
+    const validEmail = value => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+    document.querySelectorAll('[data-toggle-password]').forEach(button => button.addEventListener('click', () => {
+      const input = document.getElementById(button.dataset.togglePassword);
+      const visible = input.type === 'password';
+      input.type = visible ? 'text' : 'password';
+      button.setAttribute('aria-label', visible ? 'Hide password' : 'Show password');
+      button.innerHTML = `<i data-lucide="${visible ? 'eye-off' : 'eye'}" class="h-[18px] w-[18px]"></i>`;
+      lucide.createIcons();
+    }));
+    const phone = document.getElementById('phone');
+    phone.addEventListener('input', () => { phone.value = phone.value.replace(/\D/g, '').slice(0, 10); });
+    const validate = () => {
+      const fullName = document.getElementById('full-name'), email = document.getElementById('email');
+      const password = document.getElementById('password'), confirmPassword = document.getElementById('confirm-password'), terms = document.getElementById('terms');
       let valid = true;
-      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-      if (!fields.fullName.value.trim()) { setError('fullName', 'Full name is required'); valid = false; }
-      if (!fields.email.value.trim()) { setError('email', 'Email is required'); valid = false; }
-      else if (!emailPattern.test(fields.email.value.trim())) { setError('email', 'Invalid email address'); valid = false; }
-      if (!fields.password.value) { setError('password', 'Password is required'); valid = false; }
-      if (!fields.confirmPassword.value) { setError('confirmPassword', 'Please confirm your password'); valid = false; }
-      else if (fields.confirmPassword.value !== fields.password.value) { setError('confirmPassword', 'Passwords do not match'); valid = false; }
-      if (fields.phone.value && !/^\d{10}$/.test(fields.phone.value)) { setError('phone', 'Phone number must contain 10 digits'); valid = false; }
-      if (!fields.terms.checked) { setError('terms', 'You must agree to the Terms and Conditions'); valid = false; }
-
-      if (valid) alert('Account created successfully! (Demo)');
+      valid = setError('full-name', fullName.value.trim() ? '' : 'Full name is required') && valid;
+      valid = setError('email', !email.value.trim() ? 'Email is required' : !validEmail(email.value.trim()) ? 'Invalid email address' : '') && valid;
+      valid = setError('password', password.value ? '' : 'Password is required') && valid;
+      valid = setError('confirm-password', !confirmPassword.value ? 'Please confirm your password' : confirmPassword.value !== password.value ? 'Passwords do not match' : '') && valid;
+      valid = setError('phone', phone.value && !/^\d{10}$/.test(phone.value) ? 'Phone number must contain 10 digits' : '') && valid;
+      valid = setError('terms', terms.checked ? '' : 'You must agree to the Terms and Conditions') && valid;
+      return valid;
+    };
+    ['full-name', 'email', 'password', 'confirm-password', 'phone', 'terms'].forEach(id => {
+      const field = document.getElementById(id);
+      field.addEventListener('input', () => setError(id, ''));
+      field.addEventListener('change', () => setError(id, ''));
     });
-
-    Object.keys(fields).forEach((key) => {
-      fields[key].addEventListener('input', () => clearError(key));
-      fields[key].addEventListener('change', () => clearError(key));
-    });
+    form.addEventListener('submit', event => { event.preventDefault(); if (validate()) alert('Account created successfully! (Demo)'); });
   </script>
 </body>
 </html>
