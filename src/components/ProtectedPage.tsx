@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -8,7 +8,7 @@ import { doc, getDoc } from 'firebase/firestore';
 
 type Props = {
   children: React.ReactNode;
-  allowedRoles?: string[];
+  allowedRoles?: readonly string[];
 };
 
 export default function ProtectedPage({ children, allowedRoles = [] }: Props) {
@@ -17,51 +17,47 @@ export default function ProtectedPage({ children, allowedRoles = [] }: Props) {
   const [authorized, setAuthorized] = useState(false);
 
   useEffect(() => {
+    let mounted = true;
+
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (!user) {
-        router.push('/login');
+        router.replace('/login');
         return;
       }
 
       try {
-        const userRef = doc(db, 'users', user.uid);
-        const userSnap = await getDoc(userRef);
-
-        if (!userSnap.exists()) {
-          router.push('/login');
+        const snapshot = await getDoc(doc(db, 'users', user.uid));
+        if (!snapshot.exists()) {
+          router.replace('/login');
           return;
         }
 
-        const userData = userSnap.data();
+        const profile = snapshot.data();
+        const active = profile.status === 'active';
+        const roleAllowed = allowedRoles.length === 0 || allowedRoles.includes(profile.role);
 
-        if (allowedRoles.length > 0 && !allowedRoles.includes(userData.role)) {
-          router.push('/dashboard');
+        if (!active || !roleAllowed) {
+          router.replace('/dashboard');
           return;
         }
 
-        setAuthorized(true);
-      } catch (error) {
-        router.push('/login');
-        return;
+        if (mounted) setAuthorized(true);
+      } catch {
+        router.replace('/login');
       } finally {
-        setLoading(false);
+        if (mounted) setLoading(false);
       }
     });
 
-    return () => unsubscribe();
+    return () => {
+      mounted = false;
+      unsubscribe();
+    };
   }, [router, allowedRoles]);
 
   if (loading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-slate-100 text-slate-700">
-        Loading...
-      </div>
-    );
+    return <div className="flex min-h-screen items-center justify-center bg-slate-100 text-slate-700">Loading...</div>;
   }
 
-  if (!authorized) {
-    return null;
-  }
-
-  return <>{children}</>;
+  return authorized ? <>{children}</> : null;
 }
