@@ -1,0 +1,5 @@
+import ProtectedPage from '@/components/ProtectedPage';
+
+export default function ParentPortalPage() {
+  return <ProtectedPage allowedRoles={['parent']}><main className="p-8"><h1 className="mb-6 text-2xl font-bold">Parent Portal</h1><div className="grid gap-6 md:grid-cols-3"><div className="rounded-xl bg-white p-6 shadow-sm"><p className="text-sm text-slate-500">Child</p><p className="mt-2 text-xl font-bold">An Nguyen</p><p className="mt-1 text-sm text-slate-500">Grade 5A</p></div><div className="rounded-xl bg-white p-6 shadow-sm"><p className="text-sm text-slate-500">Attendance</p><p className="mt-2 text-3xl font-bold">96%</p></div><div className="rounded-xl bg-white p-6 shadow-sm"><p className="text-sm text-slate-500">Outstanding fees</p><p className="mt-2 text-3xl font-bold">3,300,000 VND</p></div></div><section className="mt-6 rounded-xl bg-white p-6 shadow-sm"><h2 className="text-xl font-semibold">Latest notice</h2><p className="mt-3 text-slate-600">The parent meeting will be held on Friday at 09:00 AM.</p></section></main></ProtectedPage>;
+}
