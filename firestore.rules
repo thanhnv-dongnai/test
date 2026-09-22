@@ -1,0 +1,134 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function userProfile() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+    }
+
+    function userHasPermission(permission) {
+      return signedIn() && permission in userProfile().permissions;
+    }
+
+    function schoolMember(schoolId) {
+      return signedIn()
+        && userProfile().schoolId == schoolId
+        && userProfile().status == 'active';
+    }
+
+    function schoolReadAccess(schoolId) {
+      return schoolMember(schoolId) && userHasPermission('school.read');
+    }
+
+    function schoolWriteAccess(schoolId) {
+      return schoolMember(schoolId) && userHasPermission('school.manage');
+    }
+
+    match /users/{uid} {
+      allow read: if signedIn() && request.auth.uid == uid;
+      allow create: if signedIn() && request.auth.uid == uid;
+      allow update: if signedIn() && request.auth.uid == uid;
+      allow delete: if false;
+    }
+
+    match /schools/{schoolId} {
+      allow read: if schoolReadAccess(schoolId);
+      allow create: if signedIn() && userHasPermission('school.manage');
+      allow update: if schoolWriteAccess(schoolId);
+      allow delete: if false;
+    }
+
+    match /schools/{schoolId}/academicYears/{yearId} {
+      allow read: if schoolReadAccess(schoolId);
+      allow write: if schoolWriteAccess(schoolId);
+    }
+
+    match /schools/{schoolId}/classes/{classId} {
+      allow read: if schoolMember(schoolId) && userHasPermission('class.read');
+      allow write: if schoolMember(schoolId) && userHasPermission('class.manage');
+    }
+
+    match /schools/{schoolId}/students/{studentId} {
+      allow read: if schoolMember(schoolId) && userHasPermission('student.read');
+      allow create: if schoolMember(schoolId) && userHasPermission('student.write');
+      allow update: if schoolMember(schoolId) && userHasPermission('student.write');
+      allow delete: if schoolMember(schoolId) && userHasPermission('student.delete');
+    }
+
+    match /schools/{schoolId}/students/{studentId}/documents/{documentId} {
+      allow read: if schoolMember(schoolId) && userHasPermission('student.read');
+      allow write: if schoolMember(schoolId) && userHasPermission('student.write');
+    }
+
+    match /schools/{schoolId}/teachers/{teacherId} {
+      allow read: if schoolMember(schoolId) && userHasPermission('teacher.read');
+      allow write: if schoolMember(schoolId) && userHasPermission('teacher.write');
+    }
+
+    match /schools/{schoolId}/attendance/{attendanceId} {
+      allow read: if schoolMember(schoolId) && userHasPermission('attendance.read');
+      allow create: if schoolMember(schoolId) && userHasPermission('attendance.manage');
+      allow update: if schoolMember(schoolId) && userHasPermission('attendance.manage');
+      allow delete: if false;
+    }
+
+    match /schools/{schoolId}/attendance/{attendanceId}/records/{recordId} {
+      allow read: if schoolMember(schoolId) && userHasPermission('attendance.read');
+      allow create, update: if schoolMember(schoolId) && userHasPermission('attendance.manage');
+      allow delete: if false;
+    }
+
+    match /schools/{schoolId}/exams/{examId} {
+      allow read: if schoolMember(schoolId) && userHasPermission('exam.read');
+      allow write: if schoolMember(schoolId) && userHasPermission('exam.manage');
+    }
+
+    match /schools/{schoolId}/results/{resultId} {
+      allow read: if schoolMember(schoolId) && userHasPermission('result.read');
+      allow write: if schoolMember(schoolId) && userHasPermission('result.manage');
+    }
+
+    match /schools/{schoolId}/invoices/{invoiceId} {
+      allow read: if schoolMember(schoolId) && userHasPermission('fees.read');
+      allow create: if schoolMember(schoolId) && userHasPermission('fees.manage');
+      allow update: if schoolMember(schoolId) && userHasPermission('fees.manage');
+      allow delete: if false;
+    }
+
+    match /schools/{schoolId}/payments/{paymentId} {
+      allow read: if schoolMember(schoolId) && userHasPermission('fees.read');
+      allow create, update: if schoolMember(schoolId) && userHasPermission('fees.manage');
+      allow delete: if false;
+    }
+
+    match /schools/{schoolId}/libraryBooks/{bookId} {
+      allow read: if schoolMember(schoolId) && userHasPermission('library.read');
+      allow write: if schoolMember(schoolId) && userHasPermission('library.manage');
+    }
+
+    match /schools/{schoolId}/libraryIssues/{issueId} {
+      allow read: if schoolMember(schoolId) && userHasPermission('library.read');
+      allow write: if schoolMember(schoolId) && userHasPermission('library.manage');
+    }
+
+    match /schools/{schoolId}/notices/{noticeId} {
+      allow read: if schoolMember(schoolId) && userHasPermission('notice.read');
+      allow write: if schoolMember(schoolId) && userHasPermission('notice.manage');
+    }
+
+    match /schools/{schoolId}/payroll/{payrollId} {
+      allow read: if schoolMember(schoolId) && userHasPermission('payroll.read');
+      allow write: if schoolMember(schoolId) && userHasPermission('payroll.manage');
+    }
+
+    match /schools/{schoolId}/auditLogs/{auditId} {
+      allow read: if schoolMember(schoolId) && userHasPermission('audit.read');
+      allow write: if false;
+    }
+  }
+}
